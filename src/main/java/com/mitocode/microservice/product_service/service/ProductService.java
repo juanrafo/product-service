@@ -35,4 +35,14 @@ public class ProductService {
 
     }
 
+    public ProductDTO createProduct(ProductDTO productDTO) {
+        ProductEntity productEntity = ProductEntity.builder().build();
+        BeanUtils.copyProperties(productDTO, productEntity);
+        ProductEntity savedProduct = productRepository.save(productEntity);
+        ProductDTO savedProductDTO = ProductDTO.builder().build();
+        BeanUtils.copyProperties(savedProduct, savedProductDTO);
+        savedProductDTO.setPort(port);
+        return savedProductDTO;
+    }
+
 }
