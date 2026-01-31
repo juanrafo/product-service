@@ -1,8 +1,9 @@
 package com.mitocode.microservice.product_service.service;
 
 import com.mitocode.microservice.product_service.model.dto.ProductDTO;
-import com.mitocode.microservice.product_service.model.entity.ProductEntity;
 import com.mitocode.microservice.product_service.service.repository.ProductRepository;
+import com.mitocode.microservice.product_service.util.KafkaUtil;
+import com.mitocode.microservices.commonmodels.model.entity.ProductEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,9 +22,13 @@ public class ProductService {
     @Value("${server.port}")
     private Integer port;
 
+    private final KafkaUtil kafkaUtil;
+
     public List<ProductDTO> getAllProducts() {
 
         Iterable<ProductEntity> itProducts = productRepository.findAll();
+
+        kafkaUtil.sendMessage("Kafka Send Message - Fetched all products from port: " + port);
 
         return StreamSupport.stream(itProducts.spliterator(), false).map(productEntity -> {
             ProductDTO productDTO = ProductDTO.builder().build();

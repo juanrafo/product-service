@@ -1,6 +1,6 @@
 package com.mitocode.microservice.product_service.service.repository;
 
-import com.mitocode.microservice.product_service.model.entity.ProductEntity;
+import com.mitocode.microservices.commonmodels.model.entity.ProductEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
